@@ -10,11 +10,14 @@ console.log(url);
 request(url, function(error, response, body) {
   if (error) throw error;
   var $ = cheerio.load(body);
-    $(".toon_lst").find(".toon_name").each(function (i) {
-        var toonList = $(this).text();
-        toonObj = {
-          title : toonList
-        };
-      // console.log(toonObj);
-    });
+  $(".toon_lst").find(".toon_info").each(function (i) {
+    var list = $(this);
+    var title = list.find(".toon_name").text();
+    var update = list.find(".ico_up").text();
+    toonObj = {
+      title : title,
+      update : update
+    };
+    console.log(toonObj);
+  });
 });
