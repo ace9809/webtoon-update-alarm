@@ -2,37 +2,45 @@ var request = require("request");
 var cheerio = require("cheerio");
 var mongoose = require("mongoose");
 var fs = require("fs");
+var request_sync = require('sync-request');
 var url = "http://comic.naver.com/webtoon/weekday.nhn";
-var toonObj = {};
-var tmp = '';
-var tmp2 = '';
-var title1, title2, list;
-console.log(url);
+var noId,urlSplit,webtoonJson;
+
 request(url, function(error, response, body) {
   if (error) throw error;
   var $ = cheerio.load(body);
   $("#content").find(".title").each(function (i) {
-    list = $(this);
-    title1 = 'http://comic.naver.com' + list.attr('href');
-    title2 = list.attr("title");
-    tmp += title2;
-    tmp2 += title1;
-    // console.log(title1);
-    request(title1, function(error, response, body) {
-      if (error) throw error;
-      var $ = cheerio.load(body);
-      var titlename = $("#content").find('.title').each(function (i) {
-        list2 = $(this);
-        last_title = list2.first().text();
-        console.log(title2);
-        console.log(last_title);
-        // fs.writeFileSync('test.txt', tmp2, 'utf8');
-      })
+    webtoon_list = $(this);
+    var link = 'http://comic.naver.com' + webtoon_list.attr('href');
+    var title = webtoon_list.attr("title");
+
+    // console.log("제목 : " + title);
+    // console.log("리스트 링크 : " + link);
+    var res = request_sync('GET', link, {
+      'headers': {
+        'user-agent': 'example-user-agent'
+      }});
+    var episodes = cheerio.load(res.getBody());
+    episodes(".title").find("a").first().each(function (i) {
+      noId = episodes(this).attr("href");
+      urlSplit = noId.split("&");
+      // console.log(urlSplit[1]);
     })
-    // console.log(JSON.stringify({title : title2}));
-  });
+    Obj = {
+      링크 : link,
+      제목 : title,
+      만화id : urlSplit[1]
+    }
+    webtoonJson = JSON.stringify(Obj);
+    fs.writeFileSync('test.txt', Obj, 'utf8');
+    // console.log(webtoonJson);
+    // episodes(".detail").find(".wrt_nm").each(function (i) {
+    //   console.log("작가 : " + episodes(this).text().trim());
+    // }); 작가 이름 나오게
 
   });
+});
+
 
 
 // var request = require("request");
