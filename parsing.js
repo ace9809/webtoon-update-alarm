@@ -5,6 +5,7 @@ var fs = require("fs");
 var request_sync = require('sync-request');
 var url = "http://comic.naver.com/webtoon/weekday.nhn";
 var noId,urlSplit,webtoonJson;
+var webtoonCollection = [];
 
 request(url, function(error, response, body) {
   if (error) throw error;
@@ -32,7 +33,10 @@ request(url, function(error, response, body) {
       만화id : urlSplit[1]
     }
     webtoonJson = JSON.stringify(Obj);
-    fs.writeFileSync('test.txt', Obj, 'utf8');
+    webtoonCollection.push(webtoonJson);
+    console.log(webtoonCollection);
+    // console.log(webtoonJson);
+    fs.writeFileSync('test.txt', webtoonCollection, 'utf8');
     // console.log(webtoonJson);
     // episodes(".detail").find(".wrt_nm").each(function (i) {
     //   console.log("작가 : " + episodes(this).text().trim());
