@@ -1,0 +1,26 @@
+{
+  "name": "webtoonupdatealarm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "parsing.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ace9809/webtoon-update-alarm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ace9809/webtoon-update-alarm/issues"
+  },
+  "homepage": "https://github.com/ace9809/webtoon-update-alarm#readme",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "express": "4.14.1",
+    "fs": "0.0.1-security",
+    "request": "^2.79.0",
+    "sync-request": "^4.0.1"
+  }
+}
