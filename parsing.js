@@ -3,13 +3,13 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 var request_sync = require('sync-request');
 var url = "http://comic.naver.com/webtoon/weekday.nhn";
-var noId,urlSplit,webtoonJson,urlSplit2;
+var noId,urlSplit,webtoonJson,urlSplit2,detailLInk;
 var webtoonCollection = [];
-var testJson = require('./test.json');
+// var testJson = require('./test.json');
 
 request(url, function(error, response, body) {
   // console.log(JSON.stringify(testJson));
-  console.log(testJson[1].no);
+  // console.log(testJson[1].no);
   // testJson.name = "test";
   // console.log(JSON.stringify(testJson));
 
@@ -28,15 +28,35 @@ request(url, function(error, response, body) {
       noId = episodes(this).attr("href");
       urlSplit = noId.split("&");
       urlSplit2 = urlSplit[1].split("=");
-
+      // detailLink = 'http://comic.naver.com' + noId;
     })
+    // request(detailLink, function(error, response, body) {
+    //   console.log(response.statusCode);
+    // }) 디테일 링크 응답코드
     var webtoonObj = new Object();
     webtoonObj.link = link;
     webtoonObj.title = title;
     webtoonObj.no = urlSplit2[1];
     webtoonCollection.push(webtoonObj);
     var jsonInfo = JSON.stringify(webtoonCollection);
-    // fs.writeFileSync('test.json', jsonInfo, 'utf8');
+    console.log(jsonInfo);
+    // if (!testJson) {
+    //   fs.writeFileSync('test.json', jsonInfo, 'utf8');
+    // }
+    // else {
+    //   if(urlSplit2[1] !== testJson[i].no)
+    //   {
+    //     console.log(title);
+    //     console.log("전에id:" + testJson[i].no + "새로가져온 id :"+urlSplit2[1]);
+    //     console.log("출력");
+    //     fs.writeFileSync('test.json', jsonInfo, 'utf8');
+    //   }
+    //   else if(urlSplit2[1] === testJson[i].no) {
+    //     console.log("같음");
+    //     console.log(title);
+    //     console.log("전에id:" + testJson[i].no + "새로가져온 id :"+urlSplit2[1]);
+    //   }
+    // }
 
     // console.log(webtoonJson);
     // episodes(".detail").find(".wrt_nm").e이ach(function (i) {
